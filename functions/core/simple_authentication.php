@@ -22,8 +22,9 @@ function generateToken($email) {
 }
 
 function validateToken($token) {
-    $command_token = getDbConnection()->prepare('SELECT * FROM tokens WHERE token = :token AND revoked = FALSE AND expiration_date >= now()');
-    $command_token->execute([':token' => $token]);
+    $command_token = getDbConnection()->prepare('SELECT * FROM tokens WHERE token = :token AND revoked = FALSE AND expiration_date >= :date');
+    $date = new Datetime();
+    $command_token->execute([':token' => $token, ':date' => $date->format('Y-m-d\TH:i:s.u')]);
     $result_token = $command_token->fetch(PDO::FETCH_ASSOC);
     if(empty($result_token)) {
         return [
@@ -63,7 +64,8 @@ function login($email, $password) {
 }
 
 function isAuthorized($token, $authorized_roles) {
-    $tokenInfo = validateToken($_SESSION['auth_token']);
+    $tokenInfo = validateToken($token);
+    return $tokenInfo;
     if($tokenInfo['status']) {
         $command_roles = getDbConnection()->prepare('SELECT r.name FROM tokens AS t
                 LEFT JOIN users_has_roles AS uhr ON t.id_user = uhr.id_user

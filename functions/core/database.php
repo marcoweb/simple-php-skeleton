@@ -1,9 +1,9 @@
 <?php
 const DB_HOST = 'localhost';
 const DB_PORT = '3306';
-const DB_NAME = 'authentication';
+const DB_NAME = 'applicationdb';
 const DB_USER = 'root';
-const DB_PASS = 'MySQL#Root';
+const DB_PASS = '';
 
 $_dbConnection = null;
 
