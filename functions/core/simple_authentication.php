@@ -65,7 +65,7 @@ function login($email, $password) {
 
 function isAuthorized($token, $authorized_roles) {
     $tokenInfo = validateToken($token);
-    return $tokenInfo;
+    //return $tokenInfo;
     if($tokenInfo['status']) {
         $command_roles = getDbConnection()->prepare('SELECT r.name FROM tokens AS t
                 LEFT JOIN users_has_roles AS uhr ON t.id_user = uhr.id_user

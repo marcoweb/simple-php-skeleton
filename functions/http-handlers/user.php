@@ -8,20 +8,18 @@ function list_get() {
 }
 
 function create_get() {
-    $authorized_roles = ['admin'];
-    if(USER_SELF_REGISTER) {
-        array_push($authorized_roles, 'user');
+    if(!USER_SELF_REGISTER) {
+        $authorized_roles = ['admin'];
+        authorize($authorized_roles);
     }
-    authorize($authorized_roles);
     return view();
 }
 
 function create_post($email, $password, $confirm_password) {
-    $authorized_roles = ['admin'];
-    if(USER_SELF_REGISTER) {
-        array_push($authorized_roles, 'user');
+    if(!USER_SELF_REGISTER) {
+        $authorized_roles = ['admin'];
+        authorize($authorized_roles);
     }
-    authorize($authorized_roles);
     if($password == $confirm_password) {
         loadFunctions('repositories/users');
         insertUser($email, $password);
